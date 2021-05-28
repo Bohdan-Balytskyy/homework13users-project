@@ -1,0 +1,40 @@
+table {
+  font-size: 16px;
+  color: black;
+  text-align: center;
+}
+
+.td {
+  width: 150px;
+  height: 30px;
+  border: 1px solid grey;
+  background-color: lightgray;
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.boxInput {
+  margin: 10px 20px;
+  padding: 5px;
+}
+input {
+  width: 150px;
+  height: 30px;
+  padding: 0 4px;
+  border: 1px solid grey;
+  border-radius: 5px;
+}
+
+input:focus {
+  outline: 0px;
+}
+.warn {
+  color: red;
+  font-size: 12px;
+}
+.boxTable {
+  padding: 25px;
+}

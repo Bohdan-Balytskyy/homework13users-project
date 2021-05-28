@@ -1,0 +1,39 @@
+<div class="boxTable">
+    <table>
+        <thead>
+            <tr>
+                <th class="td">id</th>
+                <th class="td">Users name</th>
+                <th class="td">Email</th>
+                <th class="td">Created_at</th>
+                <th class="td">Updated_at</th>
+            </tr>
+        </thead>
+        <tbody #table1></tbody>
+    </table>
+</div>
+<div class="addUser">
+    <form>
+        <div class="boxInput">
+            <input type="text" pattern="[a-zA-Z]+" required placeholder="Введіть логін" 
+            #name="ngModel" [(ngModel)]="name1" name = "name">
+        <div class="warn" [hidden] = "name.valid || name.untouched">Логін обов'язковий(латиниця)</div>
+        </div>
+        <div class="boxInput">
+            <input type="text" pattern="[a-zA-Z]+" required placeholder="Введіть пароль" 
+            #passw = "ngModel" [(ngModel)]="password1" name = "password">
+        <div class="warn" [hidden] = "passw.valid || passw.untouched">Пароль обов'язковий(латиниця)</div>
+        </div>
+        <div class="boxInput">
+            <input type="text" pattern="[a-zA-Z]+" required placeholder="Введіть ел.пошту" 
+            #email = "ngModel" [(ngModel)]="email1" name = "email">
+        <div class="warn" [hidden] = "email.valid || email.untouched">Email обов'язковий(латиниця)</div>
+        </div>
+        <div class="boxInput">
+            <input type="button" name="buttonAdd" id="buttonAdd" value="Додати юзера" 
+            [disabled]="!email.valid|| !passw.valid || !name.valid"
+            (click)=addUser()>   
+        </div>
+
+    </form>
+</div>

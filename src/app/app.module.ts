@@ -1,28 +1,27 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
+import { ToastrModule } from 'ngx-toastr';
 
-import { AppRoutingModule } from './app-routing.module';
+
+import { AppRoutingModule } from './app-routing.module';   // не потрібно для CoreModule, потрібно для AppRoutingModule
 import { AppComponent } from './app.component';
-import { UsersComponent } from './users/users.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
-import { MyPageComponent } from './my-page/my-page.component';
-import { UserDetailsComponent } from './user-details/user-details.component';
-import { NotFoundComponent } from './not-found/not-found.component';
+// import { CoreModule } from './core/core.module';        // потрібно для CoreModule,не потрібно для AppRoutingModule
 
 @NgModule({
   declarations: [
     AppComponent,
-    UsersComponent,
-    DashboardComponent,
-    LoginComponent,
-    MyPageComponent,
-    UserDetailsComponent,
-    NotFoundComponent
+    LoginComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
+    HttpClientModule
+    ,AppRoutingModule                    // не потрібно для CoreModule, потрібно для AppRoutingModule
+    // ,CoreModule                       // потрібно для CoreModule,не потрібно для AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

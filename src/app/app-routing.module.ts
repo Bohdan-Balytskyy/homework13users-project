@@ -1,22 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
-import { MyPageComponent } from './my-page/my-page.component';
-import { NotFoundComponent } from './not-found/not-found.component';
-import { UserDetailsComponent } from './user-details/user-details.component';
-import { UsersComponent } from './users/users.component';
 
 const routes: Routes = [
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'users', component: UsersComponent },
+  { path: 'dashboard', loadChildren: () => import('./dashboard-m/dashboard-m.module').then(m=>m.DashboardMModule)},
+  { path: 'users', loadChildren: () => import('./users-m/users-m.module').then(m=>m.UsersMModule)},
   { path: 'login', component: LoginComponent },
-  { path: 'my-page', component: MyPageComponent },
-  { path: 'users/:id', component: UserDetailsComponent },
-
+  { path: 'my-page', loadChildren: () => import('./my-page-m/my-page-m.module').then(m=>m.MyPageMModule)},
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: '**', component: NotFoundComponent }
+  { path: '**', loadChildren: () => import('./not-found-m/not-found-m.module').then(m=>m.NotFoundMModule)}
 ];
 
 @NgModule({
