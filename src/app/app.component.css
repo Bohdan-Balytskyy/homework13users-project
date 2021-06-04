@@ -1,0 +1,10 @@
+div {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 24px;
+}
+span {
+  margin: 10px 20px 5px 0;
+  color: dimgray;
+}

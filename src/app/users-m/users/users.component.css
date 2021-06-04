@@ -13,11 +13,10 @@ table {
 
 form {
   display: flex;
-  flex-wrap: wrap;
 }
 
 .boxInput {
-  margin: 10px 20px;
+  margin: 10px 10px;
   padding: 5px;
 }
 input {
@@ -37,4 +36,11 @@ input:focus {
 }
 .boxTable {
   padding: 25px;
+}
+.addUser {
+  padding-left: 10px;
+}
+.edit {
+  flex-wrap: nowrap;
+  margin-top: 30px;
 }

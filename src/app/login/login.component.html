@@ -1,12 +1,12 @@
 <div class="boxLogin">
     <div class="boxInput">
-        <input type="text" placeholder="Введіть email">
+        <input type="text" placeholder="Введіть email" [(ngModel)]="email">
     </div>
     <div class="boxInput">
-        <input type="password" placeholder="Введіть password">
+        <input type="password" placeholder="Введіть password" [(ngModel)]="password">
     </div>
     <div class="boxInput">
-        <input type="button" value="Увійти" [routerLink]="'/dashboard'">
+        <input type="button" value="Увійти" (click)=loginUser()>
     </div>
     
 </div>

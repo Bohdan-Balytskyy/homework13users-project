@@ -1,5 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
 import { ToastrModule } from 'ngx-toastr';
@@ -19,6 +20,7 @@ import { LoginComponent } from './login/login.component';
     BrowserModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
+    FormsModule,
     HttpClientModule
     ,AppRoutingModule                    // не потрібно для CoreModule, потрібно для AppRoutingModule
     // ,CoreModule                       // потрібно для CoreModule,не потрібно для AppRoutingModule

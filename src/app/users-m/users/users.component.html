@@ -1,18 +1,19 @@
-<div class="boxTable">
-    <table>
+<div class="boxTable" [hidden]="!isEditUser">
+    <table (click)=editUserStart($event) (click)=delUser($event)>
         <thead>
             <tr>
                 <th class="td">id</th>
                 <th class="td">Users name</th>
-                <th class="td">Email</th>
                 <th class="td">Created_at</th>
                 <th class="td">Updated_at</th>
+                <th class="td" [hidden] = "!isNameAdmin">Change</th>
+                <th class="td" [hidden] = "!isNameAdmin">Delete</th>
             </tr>
         </thead>
         <tbody #table1></tbody>
     </table>
 </div>
-<div class="addUser">
+<div class="addUser" [hidden]="!isEditUser">
     <form>
         <div class="boxInput">
             <input type="text" pattern="[a-zA-Z]+" required placeholder="Введіть логін" 
@@ -34,6 +35,33 @@
             [disabled]="!email.valid|| !passw.valid || !name.valid"
             (click)=addUser()>   
         </div>
-
+    </form>
+</div>
+<div class="editUser" [hidden]="isEditUser">
+    <form class="edit">
+        <div class="boxInput">
+            <input type="text" pattern="[a-zA-Z]+" required placeholder="Введіть новий логін" 
+            #editName="ngModel" [(ngModel)]="editName1" name="editName">
+            <div class="warn" [hidden]="editName.valid || editName.untouched">Логін обов'язковий(латиниця)</div>
+        </div>
+        <div class="boxInput">
+            <input type="text" pattern="[a-zA-Z]+" required placeholder="Введіть новий пароль" 
+            #editPassw="ngModel" [(ngModel)]="editPassword1" name="editPassword">
+            <div class="warn" [hidden]="editPassw.valid || editPassw.untouched">Пароль обов'язковий(латиниця)</div>
+        </div>
+        <div class="boxInput">
+            <input type="text" pattern="[a-zA-Z]+" required placeholder="Введіть нову ел.пошту" 
+            #editEmail="ngModel" [(ngModel)]="editEmail1" name="editEmail">
+            <div class="warn" [hidden]="editEmail.valid || editEmail.untouched">Email обов'язковий(латиниця)</div>
+        </div>
+        <div class="boxInput">
+            <input type="button" name="buttonEditFinish" id="buttonEditFinish" 
+            value="Змінити юзера" (click)=editUser()
+                [disabled]="!editEmail.valid|| !editPassw.valid || !editName.valid">
+        </div>
+        <div class="boxInput">
+            <input type="button" name="cansel" id="cansel" value="Відмінити" 
+            (click)="isEditUser=true">
+        </div>
     </form>
 </div>
