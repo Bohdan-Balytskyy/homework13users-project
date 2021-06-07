@@ -1,8 +1,8 @@
-export interface User {
+
+import { NewUser } from './newuser';
+
+export interface User  extends NewUser {
     id: number
-    name: string
-    email: string
-    password: string
     created_at: string
     updated_at: string
 }

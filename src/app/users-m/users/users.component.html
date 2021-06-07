@@ -10,7 +10,18 @@
                 <th class="td" [hidden] = "!isNameAdmin">Delete</th>
             </tr>
         </thead>
-        <tbody #table1></tbody>
+        <tbody >
+            <tr *ngFor="let user of servUser.users " >
+                <td class="td">{{user.id}}</td>
+                <td class="td">{{user.name}}</td>
+                <td class="td">{{user.created_at.slice(0, 10)}}</td>
+                <td class="td">{{user.updated_at.slice(0, 10)}}</td>
+                <td class="td" [hidden] = "!isNameAdmin"><input type="button" name="buttonEditStart" 
+                    value="Змінити юзера" id={{user.id}}></td>
+                <td class="td" [hidden] = "!isNameAdmin"><input type="button" name="buttonDel" 
+                    value="Видалити юзера" id={{user.id}}></td>
+            </tr>            
+        </tbody>
     </table>
 </div>
 <div class="addUser" [hidden]="!isEditUser">
