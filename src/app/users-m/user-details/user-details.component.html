@@ -16,22 +16,22 @@
             </thead>
             <tbody>
                 <tr>
-                    <td class="td narrowTd">{{id}}</td>
+                    <td class="td narrowTd">{{userDetails.id}}</td>
                     <td class="td narrowTd">
-                        <input type="text" name="name" [(ngModel)]="name" class="narrowTd" pattern="[a-zA-Z]+" required
+                        <input type="text" name="name" [(ngModel)]="userDetails.name" class="narrowTd" pattern="[a-zA-Z]+" required
                             [disabled]="!isEditUser" #nameT="ngModel">
                         <div class="warn" [hidden]="nameT.valid || nameT.untouched || nameT.disabled">Name обов'язковий(латиниця)</div>
                     </td>
-                    <td class="td">{{created_at.slice(0, 10)}}</td>
-                    <td class="td">{{updated_at.slice(0, 10)}}</td>
+                    <td class="td">{{userDetails.created_at.slice(0, 10)}}</td>
+                    <td class="td">{{userDetails.updated_at.slice(0, 10)}}</td>
                     <td class="td">
-                        <input type="text" name="email" [(ngModel)]="email" required #emailT="ngModel" pattern="[a-zA-Z]+"
+                        <input type="text" name="email" [(ngModel)]="userDetails.email" required #emailT="ngModel" pattern="[a-zA-Z]+"
                             [disabled]="!(isUserSeesHimself && isEditUser)">
                         <div class="warn" [hidden]="emailT.valid || emailT.untouched || emailT.disabled">Email
                             обов'язковий(латиниця)</div>
                     </td>
                     <td class="td" [hidden]="!isUserSeesHimself">
-                        <input type="text" name="password" [(ngModel)]="password" required #passw="ngModel" pattern="[a-zA-Z]+"
+                        <input type="text" name="password" [(ngModel)]="userDetails.password" required #passw="ngModel" pattern="[a-zA-Z]+"
                             [disabled]="!(isUserSeesHimself && isEditUser)">
                         <div class="warn" [hidden]="passw.valid || passw.untouched || passw.disabled">Password
                             обов'язковий(латиниця)</div>
@@ -44,11 +44,11 @@
                         </div>
                     </td>
                     <td class="td narrowTd" [hidden]="!isUserSeesHimself && !isCanEditUsers && !isCanEditUsersFull">
-                        <input type="button" name="buttonEditStart" value="Edit" id={{id}} class="narrowTd"
+                        <input type="button" name="buttonEditStart" value="Edit" id={{userDetails.id}} class="narrowTd"
                             (click)="isEditUser = true" [disabled]="isEditUser">
                     </td>
                     <td class="td narrowTd" [hidden]="!isUserSeesHimself && !isCanEditUsers && !isCanEditUsersFull">
-                        <input type="button" name="buttonEditStart" value="Save" id={{id}} class="narrowTd"
+                        <input type="button" name="buttonEditStart" value="Save" id={{userDetails.id}} class="narrowTd"
                             [disabled]="!isEditUser || !nameT.valid || (isUserSeesHimself ? !emailT.valid || !passw.valid : false)"
                             (click)="save()">
                     </td>

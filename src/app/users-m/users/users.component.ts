@@ -3,7 +3,8 @@ import { Router } from '@angular/router';
 import { MyToastrService } from 'src/app/my-toastr.service';
 
 import { ServUsersService } from 'src/app/serv-users.service';
-import { NewUser } from '../../../app/interfaces/newuser'
+import { NewUser } from '../../../app/interfaces/newuser';
+import permit from 'src/app/permissions';
 
 @Component({
   selector: 'app-users',
@@ -17,7 +18,7 @@ export class UsersComponent implements OnInit {
   email1: string = "";
   role1: string = "";
 
-  adminPermissions: string[] = ["can_view_users", "can_view_details_full", "can_edit_users_full", "can_delete_users", "can_add_users"]
+  adminPermissions: string[] = permit.allPermissions;
   emailLoggedUser: string;
 
   isUserCanAdd: boolean = false;

@@ -8,13 +8,8 @@ import { UserDetailsComponent } from './users-m/user-details/user-details.compon
   providedIn: 'root'
 })
 export class EditUserGuard implements CanDeactivate<UserDetailsComponent> {
-  isEdit: boolean;
-  constructor(private servUser:ServUsersService) {
-    this.servUser.streamIsEdit.subscribe(
-      value => this.isEdit = value[0] && value[1]
-    )
-    
 
+  constructor(private servUser:ServUsersService) {
   }
   canDeactivate(
     component: UserDetailsComponent,
@@ -24,7 +19,7 @@ export class EditUserGuard implements CanDeactivate<UserDetailsComponent> {
     // Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree
     boolean
   {
-    return this.isEdit ? confirm('Ви дійсно хочете покинути сторінку редагування?'): true;
+    return this.servUser.isEdit ? confirm('Ви дійсно хочете покинути сторінку редагування?'): true;
   }
   
 }
