@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { MyToastrService } from 'src/app/my-toastr.service';
 
 import { ServUsersService } from 'src/app/serv-users.service';
 import { NewUser } from '../../../app/interfaces/newuser'
@@ -14,84 +15,68 @@ export class UsersComponent implements OnInit {
   name1: string = "";
   password1: string = "";
   email1: string = "";
+  role1: string = "";
 
-  editName1: string = "";
-  editPassword1: string = "";
-  editEmail1: string = "";
+  adminPermissions: string[] = ["can_view_users", "can_view_details_full", "can_edit_users_full", "can_delete_users", "can_add_users"]
+  emailLoggedUser: string;
 
-  isEditUser: boolean = true;
-  editId: string = '';
-  isNameAdmin: boolean = false;
+  isUserCanAdd: boolean = false;
+  isUserCanViev: boolean = false;
+  isCanVievDetails: boolean = false;
+  isCanDeleteUsers: boolean = false;
 
-  constructor(public servUser: ServUsersService, private toastr: ToastrService) {
-    this.servUser.stream.subscribe(data => this.isNameAdmin = data[0] === 'admin')
+  constructor(public servUser: ServUsersService, private toastr: MyToastrService, private router: Router) {
+    this.servUser.streamUser.subscribe(data => {
+      this.emailLoggedUser = data[1];
+    });
+    this.servUser.streamPermit.subscribe(data => {
+      this.isUserCanAdd = data.includes('can_add_users');
+      this.isUserCanViev = data.includes('can_view_users');
+      this.isCanVievDetails = data.includes('can_view_details') || data.includes('can_view_details_full');
+      this.isCanDeleteUsers = data.includes('can_delete_users');
+    });
    }
 
   ngOnInit(): void {
     this.getUsers()
   }
-  errorHandling(err:any) {
-    if (err.status === 400) {
-      this.toastr.error(`${err.error.description}`, 'Помилка', {progressBar: true})
-    } else if (err.status === 401) {
-      this.toastr.error('Неавторизований юзер (можливо прострочений токен)', `Помилка`, {progressBar: true})
-    } else {
-      this.toastr.error(`${err.message}`, 'Помилка', { progressBar: true })
-    }
-  }
-  successMessage(mes: string) {
-    this.toastr.success(mes, 'Успіх', {timeOut: 2000})
-  }
   getUsers():void {
     this.servUser.fetchUsers(`http://localhost:5000/api/v1/users`).subscribe(
-      () => this.successMessage('Юзери отримані'),
-      (err) => this.errorHandling(err)
+      () => this.toastr.successMessage('Юзери отримані'),
+      (err) => this.toastr.errorHandling(err)
     )
   }
   addUser() {
     let  body: NewUser = {
       name: this.name1,
       password: this.password1,
-      email: this.email1
+      email: this.email1,
+      role: this.role1,
+      permissions: this.role1 === 'admin' ? this.adminPermissions.join('*') : ""
     }
     this.servUser.addUser(`http://localhost:5000/api/v1/users`, body).subscribe(
       () => {
-        this.successMessage('Юзера додано');
+        this.toastr.successMessage('Юзера додано');
         this.getUsers();
       },
-      (err) => this.errorHandling(err)
+      (err) => this.toastr.errorHandling(err)
     )
   }
-  editUserStart($event) {
-    if ($event.target.name === "buttonEditStart") {
-      this.isEditUser = false;
-      this.editId = $event.target.id;
-    }
-  }
-  editUser() {
-      let  body: NewUser = {
-      name: this.editName1,
-      password: this.editPassword1,
-      email: this.editEmail1
-      }
-    this.servUser.putUser(this.editId,`http://localhost:5000/api/v1/users/`, body).subscribe(
-      () => {
-        this.successMessage('Юзера змінено');
-        this.getUsers();
-      },
-      (err) => this.errorHandling(err)
-    )
-    this.isEditUser = true;
-  }
+
   delUser($event) {
     if ($event.target.name === "buttonDel") {
       this.servUser.delUser($event.target.id, `http://localhost:5000/api/v1/users`).subscribe(
         () => {
-          this.successMessage('Юзера видалено');
+          this.toastr.successMessage('Юзера видалено');
           this.getUsers();
         },
-        (err) => this.errorHandling(err)
+        (err) => this.toastr.errorHandling(err)
       )
+    }
+  }
+  showDetails($event) {
+    if ($event.target.name === "buttonDetails") {
+      this.router.navigate([`users/${$event.target.id}`]);
     }
   }
 }

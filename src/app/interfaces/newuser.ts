@@ -1,5 +1,7 @@
 export interface NewUser {
     name: string;
     password: string;
-    email: string
+    email: string;
+    role: string;
+    permissions?: string
 }

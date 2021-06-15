@@ -11,7 +11,7 @@ export class AppComponent {
   userEmail: string;
   userName: string;
   constructor(private servUser: ServUsersService) {
-    this.servUser.stream.subscribe(data => {
+    this.servUser.streamUser.subscribe(data => {
       this.userEmail = data[1];
       this.userName = data[0]
       })

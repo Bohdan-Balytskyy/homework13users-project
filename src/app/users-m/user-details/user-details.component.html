@@ -1,1 +1,60 @@
-<p>user-details works!</p>
+<div class="boxTable">
+    <form name="form" #form = ngForm (change) = "changeForm()">
+        <table>
+            <thead>
+                <tr>
+                    <th class="td narrowTd">id</th>
+                    <th class="td narrowTd">Name</th>
+                    <th class="td">Created_at</th>
+                    <th class="td">Updated_at</th>
+                    <th class="td">Email</th>
+                    <th class="td" [hidden]="!isUserSeesHimself">Password</th>
+                    <th class="td wideTd" [hidden]="!isUserSeesHimself && !isCanViewUsersFull">Permissions</th>
+                    <th class="td narrowTd" [hidden]="!isUserSeesHimself && !isCanEditUsers && !isCanEditUsersFull">Edit</th>
+                    <th class="td narrowTd" [hidden]="!isUserSeesHimself && !isCanEditUsers && !isCanEditUsersFull">Save</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="td narrowTd">{{id}}</td>
+                    <td class="td narrowTd">
+                        <input type="text" name="name" [(ngModel)]="name" class="narrowTd" pattern="[a-zA-Z]+" required
+                            [disabled]="!isEditUser" #nameT="ngModel">
+                        <div class="warn" [hidden]="nameT.valid || nameT.untouched || nameT.disabled">Name обов'язковий(латиниця)</div>
+                    </td>
+                    <td class="td">{{created_at.slice(0, 10)}}</td>
+                    <td class="td">{{updated_at.slice(0, 10)}}</td>
+                    <td class="td">
+                        <input type="text" name="email" [(ngModel)]="email" required #emailT="ngModel" pattern="[a-zA-Z]+"
+                            [disabled]="!(isUserSeesHimself && isEditUser)">
+                        <div class="warn" [hidden]="emailT.valid || emailT.untouched || emailT.disabled">Email
+                            обов'язковий(латиниця)</div>
+                    </td>
+                    <td class="td" [hidden]="!isUserSeesHimself">
+                        <input type="text" name="password" [(ngModel)]="password" required #passw="ngModel" pattern="[a-zA-Z]+"
+                            [disabled]="!(isUserSeesHimself && isEditUser)">
+                        <div class="warn" [hidden]="passw.valid || passw.untouched || passw.disabled">Password
+                            обов'язковий(латиниця)</div>
+                    </td>
+                    <td class="td wideTd" [hidden]="!isUserSeesHimself && !isCanViewUsersFull">
+                        <div *ngFor="let permit of permissionsAll; let i = index">
+                            <label for="permit{{i}}">{{permit}}</label>
+                            <input type="checkbox" [disabled]="!(isEditUser && isCanEditUsersFull)" name="permit{{i}}"
+                                [(ngModel)]="permissionsEdit[i]" [attr.data-ind]="i" (change)="changePermit($event)">
+                        </div>
+                    </td>
+                    <td class="td narrowTd" [hidden]="!isUserSeesHimself && !isCanEditUsers && !isCanEditUsersFull">
+                        <input type="button" name="buttonEditStart" value="Edit" id={{id}} class="narrowTd"
+                            (click)="isEditUser = true" [disabled]="isEditUser">
+                    </td>
+                    <td class="td narrowTd" [hidden]="!isUserSeesHimself && !isCanEditUsers && !isCanEditUsersFull">
+                        <input type="button" name="buttonEditStart" value="Save" id={{id}} class="narrowTd"
+                            [disabled]="!isEditUser || !nameT.valid || (isUserSeesHimself ? !emailT.valid || !passw.valid : false)"
+                            (click)="save()">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    
+</div>

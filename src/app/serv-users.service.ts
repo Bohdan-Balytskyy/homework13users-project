@@ -15,8 +15,11 @@ export class ServUsersService {
   
   public users: User[] = [];
   public header;
-  public stream = new BehaviorSubject(['', '']);
-  
+  public streamUser = new BehaviorSubject(['', '', '']);
+  public streamPermit = new BehaviorSubject(['']);
+  public streamIsEdit = new BehaviorSubject([false,false]);
+  public userLogged: User;
+
   constructor(private http: HttpClient) {
   }
 
@@ -39,11 +42,14 @@ export class ServUsersService {
     this.header = new HttpHeaders().set('Authorization', token);
     return this.http.delete<string>(url+'/'+id, {headers: this.header})
   }
+  patchUser(id: string, url: string, body: {name: string,permissions: string}): Observable<string>{
+    this.header = new HttpHeaders().set('Authorization', token);
+    return this.http.patch<string>(url+id, body, {headers: this.header})
+  }
   loginUser(url: string, body: {email:string, password: string}): Observable<{access_token:string}>{
     return this.http.post<{access_token:string}>(url, body).
       pipe(tap(token1=> {
         token = token1.access_token;
-        console.log(token);
     }))
   }
 }

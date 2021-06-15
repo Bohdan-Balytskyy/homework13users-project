@@ -19,7 +19,8 @@ form {
   margin: 10px 10px;
   padding: 5px;
 }
-input {
+input,
+select {
   width: 150px;
   height: 30px;
   padding: 0 4px;
@@ -27,7 +28,8 @@ input {
   border-radius: 5px;
 }
 
-input:focus {
+input:focus,
+select:focus {
   outline: 0px;
 }
 .warn {
@@ -39,8 +41,4 @@ input:focus {
 }
 .addUser {
   padding-left: 10px;
-}
-.edit {
-  flex-wrap: nowrap;
-  margin-top: 30px;
 }

@@ -6,12 +6,12 @@ import { UsersMRoutingModule } from './users-m-routing.module';
 import { UsersComponent } from './users/users.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { FormsModule } from '@angular/forms';
+import { EditUserGuard } from '../edit-user.guard';
 
 const routes: Routes = [
-  { path: ':id', component: UserDetailsComponent },
+  { path: ':id', component: UserDetailsComponent, canDeactivate: [EditUserGuard] },
   { path: '', component: UsersComponent }
 ];
-
 
 @NgModule({
   declarations: [

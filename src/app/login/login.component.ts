@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { MyToastrService } from '../my-toastr.service';
 
 import { ServUsersService } from '../serv-users.service';
 
@@ -10,11 +11,10 @@ import { ServUsersService } from '../serv-users.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
   email: string;
   password: string;
 
-  constructor(private servUser: ServUsersService, private toastr: ToastrService, private router: Router ) { }
+  constructor(private servUser: ServUsersService, private toastr: MyToastrService, private router: Router ) { }
 
   ngOnInit(): void {
   }
@@ -25,12 +25,13 @@ export class LoginComponent implements OnInit {
     }
     this.servUser.loginUser(`http://localhost:5000/auth/v1/sign-in`, body).subscribe(
       () => {
-        this.toastr.success('Логін успішний', 'Успіх', {timeOut: 1000});
+        this.toastr.successMessage('Логін успішний');
         this.servUser.fetchUsers(`http://localhost:5000/api/v1/users`).subscribe(
           () => {
             for (let i: number = 0; i < this.servUser.users.length; i++) {
               if (this.servUser.users[i].email == this.email) {
-                this.servUser.stream.next([this.servUser.users[i].name,this.email])
+                this.servUser.streamUser.next([this.servUser.users[i].name, this.email, this.servUser.users[i].role])
+                this.servUser.streamPermit.next(this.servUser.users[i].permissions.split('*'))
                 break;
               }
             }
@@ -40,19 +41,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/dashboard'])
         }, 1000);
       },
-      (err) => {
-        if (err.status === 400) {
-          this.toastr.error(`${err.error.description}`, 'Помилка', {
-            timeOut: 5000,
-            progressBar: true
-          })
-        } else {
-          this.toastr.error(`${err.message}`, 'Помилка', {
-            timeOut: 5000,
-            progressBar: true
-          }) 
-        }
-      }
+      (err) =>this.toastr.errorHandling(err)
     )
   }
 
